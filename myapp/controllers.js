@@ -13,7 +13,11 @@ const postTableData = (req, res, db) => {
 
 const putTableData = (req, res, db) => {
   const { lead_id, first, last, email } = req.body
-  db('leads').where({lead_id}).update({first, last, email}).then(res.send('Record updated'))
+  db('leads').where({lead_id}).update({first, last, email}).returning(['lead_id', 'first', 'last', 'email'])
+  .then(item => {
+    console.log(item)
+    res.json(item)
+  })
 }
 
 const deleteTableData = (req, res, db) => {
