@@ -1,5 +1,6 @@
 const express = require('express')
 var bodyParser = require('body-parser')
+var cors = require('cors')
 
 var db = require('knex')({
     client: 'pg',
@@ -15,6 +16,8 @@ const main = require('./controllers.js')
 const app = express()
 const port = 3010
 app.use(bodyParser.json())
+//accepts requests from any domain
+app.use(cors())
 
 app.get('/', (req, res) => res.send('Hello World!'))
 app.get('/home', (req, res) => main.getTableData(req, res, db))

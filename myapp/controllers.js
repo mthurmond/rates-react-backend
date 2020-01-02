@@ -5,7 +5,10 @@ const getTableData = (req, res, db) => {
 const postTableData = (req, res, db) => {
   const { first, last, email } = req.body
   const created_on = new Date()
-  db('leads').insert({first, last, email, created_on}).then(res.send('Record added'))
+  db('leads').insert({first, last, email, created_on}).returning(['lead_id', 'first', 'last', 'email'])
+  .then(item => {
+    res.json(item)
+    })
   }
 
 const putTableData = (req, res, db) => {
