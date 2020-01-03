@@ -24,6 +24,9 @@ app.get('/home', (req, res) => main.getTableData(req, res, db))
 app.post('/home', (req, res) => main.postTableData(req, res, db))
 app.put('/home', (req, res) => main.putTableData(req, res, db))
 app.delete('/home', (req, res) => main.deleteTableData(req, res, db))
+
+app.get('/profile', (req, res) => main.getProfileData(req, res, db))
+
 app.get('*', (req, res) => res.send('There is nothing here.'))
 
 app.listen(port, () => console.log(`App listening on port ${port}!`))

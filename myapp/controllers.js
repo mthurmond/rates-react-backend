@@ -1,5 +1,5 @@
 const getTableData = (req, res, db) => {
-  db.select('*').from('leads').then(items => {res.json(items)}) 
+  db.select('*').from('leads').orderBy('lead_id', 'asc').then(items => {res.json(items)}) 
   }
 
 const postTableData = (req, res, db) => {
@@ -25,9 +25,14 @@ const deleteTableData = (req, res, db) => {
   db('leads').where({lead_id}).del().then(res.send('Record deleted'))
 }
 
+const getProfileData = (req, res, db) => {
+  db.select('*').from('users').orderBy('id', 'asc').then(items => {res.json(items)}) 
+  }
+
 module.exports = {
   getTableData,
   postTableData,
   putTableData,
-  deleteTableData
+  deleteTableData,
+  getProfileData
 }
