@@ -25,14 +25,31 @@ const deleteTableData = (req, res, db) => {
   db('leads').where({lead_id}).del().then(res.send('Record deleted'))
 }
 
+//https://codeshack.io/basic-login-system-nodejs-express-mysql/
 const getProfileData = (req, res, db) => {
   db.select('*').from('users').orderBy('id', 'asc').then(items => {res.json(items)}) 
   }
+
+const postLoginData = (req, res, db) => {
+  //get email and password from request body
+  const { email, password } = req.body
+  //search for user with that email and password
+  console.log(email)
+  console.log(password)
+  db.select('*').from('users').where({email}).returning(['email', 'password'])
+  .then(item => {
+    res.json(item)
+  })
+  //if user exists, tell them they're logged in
+  //if user doesn't exist, tell them 'invalid email and/or password'
+
+}
 
 module.exports = {
   getTableData,
   postTableData,
   putTableData,
   deleteTableData,
-  getProfileData
+  getProfileData,
+  postLoginData
 }

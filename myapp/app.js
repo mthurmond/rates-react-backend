@@ -1,6 +1,7 @@
 const express = require('express')
 var bodyParser = require('body-parser')
 var cors = require('cors')
+var session = require('express-session')
 
 var db = require('knex')({
     client: 'pg',
@@ -15,7 +16,16 @@ var db = require('knex')({
 const main = require('./controllers.js')
 const app = express()
 const port = 3010
+
+//use express-session to append session object to each request so server can tell which user is sending them and send back the appropriate content
+app.use(session({
+  secret: 'jlkvA8a8c9239slcd003k9d9kk039djJkdPQIdo993jdmd',
+  resave: false,
+  saveUninitialized: false
+}))
+
 app.use(bodyParser.json())
+
 //accepts requests from any domain
 app.use(cors())
 
@@ -26,6 +36,8 @@ app.put('/home', (req, res) => main.putTableData(req, res, db))
 app.delete('/home', (req, res) => main.deleteTableData(req, res, db))
 
 app.get('/profile', (req, res) => main.getProfileData(req, res, db))
+
+app.post('/login', (req, res) => main.postLoginData(req, res, db))
 
 app.get('*', (req, res) => res.send('There is nothing here.'))
 
