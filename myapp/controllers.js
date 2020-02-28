@@ -34,9 +34,9 @@ const postLoginData = (req, res, db) => {
   //get email and password from request body
   const { email, password } = req.body
   //search for user with that email and password
-  console.log(email)
+  console.log({email})
   console.log(password)
-  db.select('*').from('users').where({email}).returning(['email', 'password'])
+  db.select('first', 'last', 'email').from('users').where({email, password})
   .then(item => {
     res.json(item)
   })
